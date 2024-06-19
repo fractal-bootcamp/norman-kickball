@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import Matter from "matter-js";
 import "./index.css";
+import { PressStart } from "./test.tsx";
 
 var Engine = Matter.Engine,
   Render = Matter.Render,
@@ -29,25 +30,53 @@ var options = {
   label: "ball",
 };
 
+var canvas = document.querySelector("canvas");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+var cWidth = canvas.offsetWidth;
+var cHeight = canvas.offsetHeight;
+
+const margin = 0;
+
 // create two boxes and a ground
-var boxA = Bodies.rectangle(400, 200, 80, 80);
-var boxB = Bodies.rectangle(450, 50, 80, 80);
-var ballShape = Bodies.circle(200, 200, 80, options);
-var ground = Bodies.rectangle(400, 610, 810, 60, { isStatic: true });
-var leftWall = Bodies.rectangle(-1 * 1000, 1000, 60, 1000 * 4, {
+var boxA = Bodies.rectangle(400, 200, 320, 320);
+var boxB = Bodies.rectangle(450, 50, 400, 400);
+var boxC = Bodies.rectangle(1500, 1550, 100, 700, {
   isStatic: true,
 });
-var rigthWall = Bodies.rectangle(1000 + 1000, 1000, 60, 1000 * 4, {
+var boxD = Bodies.rectangle(1500, 450, 100, 700, {
+  isStatic: true,
+});
+var boxE = Bodies.rectangle(1800, 1750, 100, 700, {
+  isStatic: true,
+});
+var boxF = Bodies.rectangle(1800, 650, 100, 700, {
+  isStatic: true,
+});
+var ballShape = Bodies.circle(200, 200, 70, options);
+var ground = Bodies.rectangle(cWidth / 2, cHeight + margin, cWidth, 60, {
+  isStatic: true,
+  restitution: -2,
+  label: "ground",
+});
+var leftWall = Bodies.rectangle(-1 * margin, cHeight, 60, cHeight * 4, {
+  isStatic: true,
+});
+var rigthWall = Bodies.rectangle(cWidth + margin, cHeight, 60, cHeight * 4, {
   isStatic: true,
 });
 
-engine.gravity.y = 4;
+engine.gravity.y = 3;
 engine.timing.timeScale = 0.6;
 
 // add all of the bodies to the world
 Composite.add(engine.world, [
   boxA,
   boxB,
+  boxC,
+  boxD,
+  boxE,
+  boxF,
   ground,
   ballShape,
   leftWall,
@@ -112,7 +141,5 @@ var runner = Runner.create();
 Runner.run(runner, engine);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <React.StrictMode></React.StrictMode>
 );
